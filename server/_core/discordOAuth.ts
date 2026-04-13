@@ -23,9 +23,6 @@ export interface DiscordGuildMember {
  */
 export async function exchangeDiscordCode(code: string, redirectUri: string): Promise<string> {
   try {
-    // Use the fixed redirect URI for production
-    const finalRedirectUri = "https://secnetcheck-xzlirhnw.manus.space/api/oauth/discord/callback";
-    
     const response = await axios.post(
       `${DISCORD_API_BASE}/oauth2/token`,
       {
@@ -33,7 +30,7 @@ export async function exchangeDiscordCode(code: string, redirectUri: string): Pr
         client_secret: ENV.discordClientSecret,
         code,
         grant_type: "authorization_code",
-        redirect_uri: finalRedirectUri,
+        redirect_uri: redirectUri,
         scope: "identify guilds.members.read guilds",
       },
       {
